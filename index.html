@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>伊格尼斯 事件開放倒數</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background: #0d0d1a;
+      color: #e0e0ff;
+      font-family: 'Microsoft JhengHei', 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .panel {
+      background: #1a1a2e;
+      border-radius: 16px;
+      padding: 24px;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      border: 1px solid #2a2a4a;
+    }
+
+    h1 {
+      text-align: center;
+      color: #a78bfa;
+      margin: 0 0 8px;
+      font-size: 2.2rem;
+      text-shadow: 0 0 10px rgba(167,139,250,0.5);
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #94a3b8;
+      font-size: 1rem;
+      margin: 0 0 20px;
+    }
+
+    .version {
+      text-align: center;
+      color: #64748b;
+      font-size: 0.9rem;
+      margin-bottom: 24px;
+    }
+
+    .item {
+      margin: 12px 0;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    .item strong {
+      color: #c084fc;
+    }
+
+    .completed {
+      color: #22c55e !important;
+      text-shadow: 0 0 8px rgba(34,197,94,0.6);
+    }
+
+    .countdown {
+      color: #f472b6;
+      font-weight: bold;
+      text-shadow: 0 0 8px rgba(244,114,182,0.7);
+    }
+
+    .emoji {
+      margin-right: 8px;
+      font-size: 1.3rem;
+    }
+
+    .progress {
+      color: #94a3b8;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+
+<div class="panel">
+  <h1>伊格尼斯 事件開放倒數</h1>
+  <div class="subtitle">版本 0.0.1 – 伊格尼斯20260706</div>
+  <div class="version">時間校準: 深. / 原作者 小雲雀來海</div>
+
+  <div class="item">
+    <span class="emoji">🏰</span>
+    <strong>伊格尼斯</strong>
+    <span class="countdown" id="Event_0_countdown">倒數計算中...</span>
+  </div>
+
+  <div class="item">
+    <span class="emoji"></span>
+    <strong>伊格尼斯I-遺物</strong> 
+    <span class="countdown" id="Event_1_countdown">倒數計算中...</span>
+  </div>
+
+  <div class="item">
+    <span class="emoji"></span>
+    <strong>冰稜尖塔</strong> 
+    <span class="progress">(-- / 8200W)</span>
+    <span class="countdown" id="Event_4_countdown">倒數計算中...</span>
+  </div>
+
+  <div class="item">
+    <span class="emoji"></span>
+    <strong>黑岩遺蹟</strong> 
+    <span class="progress">(1.1e / 1.3e / 1.56e / 2.3e)</span>
+    <span class="countdown" id="Event_5_countdown">倒數計算中...</span>
+  </div>
+
+  <div class="item">
+    <span class="emoji"></span>
+    <strong>永霜聖堂</strong> 
+    <span class="progress">(1.66e / 1.92e / 2.3e / 3.5e)</span>
+    <span class="countdown" id="Event_6_countdown">倒數計算中...</span>
+  </div>
+
+  <div class="item">
+    <span class="emoji"></span>
+    <strong>伊格尼斯II-遺物</strong> 
+    <span class="countdown" id="Event_2_countdown">倒數計算中...</span>
+  </div>
+
+  <div class="item">
+    <span class="emoji"></span>
+    <strong>炎獄王座</strong> 
+    <span class="progress">(--e / --e / --e / --e)</span>
+    <span class="countdown" id="Event_7_countdown">倒數計算中...</span>
+  </div>
+
+  <div class="item">
+    <span class="emoji"></span>
+    <strong>月之宮殿</strong> 
+    <span class="progress">(--e / --e / --e / --e)</span>
+    <span class="countdown" id="Event_8_countdown">倒數計算中...</span>
+  </div>
+
+  <div class="item">
+    <span class="emoji"></span>
+    <strong>伊格尼斯III-遺物</strong> 
+    <span class="countdown" id="Event_3_countdown">倒數計算中...</span>
+  </div>
+
+  <div class="item">
+    <span class="emoji"></span>
+    <strong>赤炎之契</strong> 
+    <span class="progress">(--e / --e / --e / --e)</span>
+    <span class="countdown" id="Event_9_countdown">倒數計算中...</span>
+  </div>
+
+  <div class="item">
+    <span class="emoji"></span>
+    <strong>起源之門</strong> 
+    <span class="progress">(--e / --e / --e / --e)</span>
+    <span class="countdown" id="Event_10_countdown">倒數計算中...</span>
+  </div>
+</div>
+
+<script>
+//第二個副本4/9    第三04/23  05/07  05/21  06/04   06/18
+// 設定目標時間（根據你提供的倒數：3天16時52分39秒，從現在開始倒數）
+// 你可以改成固定日期，例如 "2025-09-23T00:00:00"
+const EventsTarget = {
+    Event_0: new Date("2026-07-06T08:00:00").getTime(),   // ← 伊格尼斯
+    Event_1: new Date("2026-07-06T08:00:00").getTime(),   // ← 遺物1
+    Event_2: new Date("2026-08-05T08:00:00").getTime(),     // ← 遺物2
+    Event_3: new Date("2026-09-04T08:00:00").getTime(),   // ← 遺物3
+    Event_4: new Date("2026-07-06T08:00:00").getTime(),     // ← 冰稜尖塔
+    Event_5: new Date("2026-07-19T08:00:00").getTime(),   // ← 黑岩遺蹟
+    Event_6: new Date("2026-08-02T08:00:00").getTime(),     // ← 永霜聖堂
+    Event_7: new Date("2026-08-16T08:00:00").getTime(),   // ← 炎獄王座
+    Event_8: new Date("2026-08-30T08:00:00").getTime(),     // ← 月之宮殿
+    Event_9: new Date("2026-09-13T08:00:00").getTime(),   // ← 赤炎之契
+    Event_10: new Date("2026-09-27T08:00:00").getTime()     // ← 起源之門
+};
+
+
+function updateCountdown(targetTime, elementId) {
+  const now = new Date().getTime();
+  const distance = targetTime - now;
+  const el = document.getElementById(elementId);
+
+  if (!el) return;
+
+  if (distance <= 0) {
+    el.textContent = "已到達！";
+    el.classList.add("completed");
+    el.classList.remove("countdown");
+    return;
+  }
+
+  const days    = Math.floor(distance / (1000 * 60 * 60 * 24));
+  const hours   = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  el.textContent = `倒數 ${days}天 ${hours}時 ${minutes}分 ${seconds}秒`;
+}
+
+// 每秒更新所有倒數項目
+function updateAllCountdowns() {
+    updateCountdown(EventsTarget.Event_0, "Event_0_countdown");
+    updateCountdown(EventsTarget.Event_1, "Event_1_countdown");
+    updateCountdown(EventsTarget.Event_2, "Event_2_countdown");
+    updateCountdown(EventsTarget.Event_3, "Event_3_countdown");
+    updateCountdown(EventsTarget.Event_4, "Event_4_countdown");
+    updateCountdown(EventsTarget.Event_5, "Event_5_countdown");
+    updateCountdown(EventsTarget.Event_6, "Event_6_countdown");
+    updateCountdown(EventsTarget.Event_7, "Event_7_countdown");
+    updateCountdown(EventsTarget.Event_8, "Event_8_countdown");
+    updateCountdown(EventsTarget.Event_9, "Event_9_countdown");
+    updateCountdown(EventsTarget.Event_10, "Event_10_countdown");
+  // 如果之後加第3個、第4個... 就在這裡繼續加
+  // updateCountdown(targets.xxx, "countdown-xxx");
+}
+
+setInterval(updateAllCountdowns, 1000);
+updateAllCountdowns();  // 頁面載入時先執行一次
+</script>
+
+</body>
+</html>
